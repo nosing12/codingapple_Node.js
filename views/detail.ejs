@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>플럽 | 숙련된 인테리어 시공팀을 찾아보세요</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <%- include('./modules/nav.ejs') %>
+    <div class="container col-xxl-8 px-4 py-5">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img
+            src="bootstrap-themes.png"
+            class="d-block mx-lg-auto img-fluid"
+            alt="Bootstrap Themes"
+            width="700"
+            height="500"
+            loading="lazy"
+          />
+        </div>
+        <div class="col-lg-6">
+          <img src="<%=result.logo %>" width="50px" height="50px" />
+          <h3 class="fw-bold text-body-emphasis lh-1 mb-3">
+            <%= result.name %>
+          </h3>
+          <h2 class="fw-bold text-body-emphasis lh-1 mb-3">
+            인테리어 철거/설비 전문
+          </h2>
+          <p>📍<%= result.district%></p>
+          <button type="button" class="btn btn-primary btn-sm px-4 me-md-2">
+            DM문의
+          </button>
+          <p class="lead">
+            👋 견적 문의 시 "플럽에서 보고 연락드렸습니다."라고 하시면 보다
+            원활한 상담을 하실 수 있어요.
+          </p>
+          <p class="lead">
+            전문 시공팀들은 보통 2주 이상의 일정이 잡혀있습니다.<br />
+            최소 2주에서 최대 한 달 전에 미리 시공 일정을 예약하시길 권장
+            드립니다.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
+              Project
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+              About
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+    <%- include("./modules/footer.ejs") %>
+  </body>
+</html>

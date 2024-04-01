@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>플럽-시공팀 찾기</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <%- include('./modules/nav.ejs') %>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">
+            매립 수전, 확장, 유비알 철거<br />수도 배관 이설 및 구조 변경
+          </h1>
+          <p class="lead text-body-secondary">
+            디테일을 이해하고 있는 숙련된 시공팀 찾을 땐 '플럽'
+          </p>
+          <p>
+            <a class="btn btn-secondary my-2"> 승강기 보양 | 동의 | 허가 </a>
+            <a class="btn btn-primary my-2">철거 | 설비</a>
+            <a class="btn btn-secondary my-2">마루철거</a>
+            <a class="btn btn-secondary my-2">전기 | IoT</a>
+            <a class="btn btn-secondary my-2">목공</a>
+            <a class="btn btn-secondary my-2">타일</a>
+            <a class="btn btn-secondary my-2">페인트</a>
+            <a class="btn btn-secondary my-2">도배</a>
+            <a class="btn btn-secondary my-2">필름</a>
+            <a class="btn btn-secondary my-2">마루</a>
+            <a class="btn btn-secondary my-2">가구</a>
+            <a class="btn btn-secondary my-2">탄성코트</a>
+            <a class="btn btn-secondary my-2">청소</a>
+            <a class="btn btn-secondary my-2">실리콘 | 줄눈</a>
+            <a class="btn btn-secondary my-2">샷시</a>
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <% for(let i = 0; i < result.length; i++){ %>
+          <div
+            class="col"
+            style="cursor: pointer"
+            onclick="window.open('/detail/<%= result[i]._id %>')"
+          >
+            <div class="card shadow-sm">
+              <svg
+                class="bd-placeholder-img card-img-top"
+                width="100%"
+                height="225"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Placeholder: Thumbnail"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect>
+                <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+              </svg>
+              <div class="card-body">
+                <img src="<%=result[i].logo %>" width="30px" height="30px" />
+                <p class="card-text"><%= result[i].name %></p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary"
+                    ><%= result[i].district %></small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link">이전</a>
+        </li>
+        <% for (let i =1; i <= totalPageNumber; i++) {%>
+        <li class="page-item">
+          <a class="page-link" href="/recruit/<%= i%>"><%= i%></a>
+        </li>
+        <%}%>
+        <li class="page-item">
+          <a class="page-link" href="#">다음</a>
+        </li>
+      </ul>
+    </nav>
+    <%- include("./modules/footer.ejs") %>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
