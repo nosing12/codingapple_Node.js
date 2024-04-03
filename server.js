@@ -51,10 +51,9 @@ const upload = multer({
   }),
 });
 
+let connectDB = require("./database.js");
 let db;
-const url = process.env.DB_URL;
-new MongoClient(url)
-  .connect()
+connectDB
   .then((client) => {
     console.log("DB연결성공");
     db = client.db("PLUP");
@@ -120,7 +119,7 @@ app.get("/createTeam", (req, res) => {
 });
 
 app.post("/createTeam", upload.single("teamLogo"), async (req, res) => {
-  console.log(req.file.location);
+  console.log(req.user);
   try {
     if (req.body.name == "") {
       res.send("이름 입력안했는데?");
@@ -129,7 +128,9 @@ app.post("/createTeam", upload.single("teamLogo"), async (req, res) => {
         name: req.body.name,
         district: req.body.district,
         process: req.body.process,
-        logo: req.file.location,
+        logo: req.file ? req.file.location : "",
+        user: req.user._id,
+        username: req.user.username,
       });
       res.redirect("/recruit/1");
     }
@@ -137,6 +138,14 @@ app.post("/createTeam", upload.single("teamLogo"), async (req, res) => {
     console.log(e);
     res.status(500).send("서버에러남");
   }
+});
+
+app.delete("/delete", async (req, res) => {
+  await db.collection("team").deleteOne({
+    _id: new ObjectId(req.query.docid),
+    user: new ObjectId(req.user._id),
+  });
+  res.send("삭제완료");
 });
 
 app.get("/edit/:id", async (req, res) => {
@@ -164,11 +173,6 @@ app.put("/edit", async (req, res) => {
     console.log(e);
     res.status(500).send("서버에러남");
   }
-});
-
-app.delete("/delete", async (req, res) => {
-  await db.collection("post").deleteOne({ _id: new ObjectId(req.query.docid) });
-  res.send("삭제완료");
 });
 
 app.get("/list/:id", async (req, res) => {
@@ -272,3 +276,34 @@ app.post("/join", async (req, res) => {
 });
 
 app.use("/shop", require("./routes/shop.js"));
+app.use("/board/sub", require("./routes/board.js"));
+
+app.get("/search", async (req, res) => {
+  console.log(req.query.val);
+  let 검색조건 = [
+    {
+      $search: {
+        index: "name_index",
+        text: { query: req.query.val, path: "name" },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ];
+  const totalPageNumber = Math.ceil(
+    (
+      await db
+        .collection("team")
+        .find({ name: { $regex: req.query.val } })
+        .toArray()
+    ).length / 6
+  );
+  let result = await db.collection("team").aggregate(검색조건).toArray();
+  res.render("search.ejs", {
+    result: result,
+    totalPageNumber: totalPageNumber,
+  });
+});
+
+// 1. 댓글작성 UI에서 전송누르면 댓글전송됨
+// 2. 서버는 댓글받으면 DB에 저장
+// 3.
